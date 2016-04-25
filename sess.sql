@@ -7,6 +7,7 @@
 * History
 * 	Date		Change
 *	26/02/2016	Initial version 
+*	25/04/2016	Adding RAC instance ID
 ******************************************************************************/
 
  COL bs FOR 9999
@@ -14,6 +15,7 @@
  COL username FOR A20
  COL action FOR A15
  COL sid FOR 9999
+ COL inst_id FOR 9 HEAD I
  COL serial# FOR 99999 HEAD SER#
  COL osuser FOR A10
  COL plsql_obj FOR A20
@@ -23,7 +25,8 @@
  COL p1 FOR A15
  COL event FOR A35
  COL resource_consumer_group FOR A20
- SELECT s.sid
+ SELECT s.inst_id
+      , s.sid
       , s.serial#
       , s.username
       , s.osuser
@@ -38,7 +41,7 @@
       , s.resource_consumer_group
       , last_call_et
       , s.blocking_session bs
-  FROM  v$session s
+  FROM  gv$session s
   LEFT JOIN audit_actions a
   ON    (s.command = a.action)
   LEFT JOIN dba_objects o
